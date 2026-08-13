@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>I Love You</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Great+Vibes&display=swap" rel="stylesheet">
+<style>
+*,*::after,*::before{padding:0;margin:0;box-sizing:border-box}
+
+:root{
+  --dark-color:#0a0010;
+  --glow-color:#ff69b4;
+}
+
+body{
+  display:flex;
+  align-items:flex-end;
+  justify-content:center;
+  min-height:100vh;
+  background-color:var(--dark-color);
+  overflow:hidden;
+}
+
+/* ─── STARS ─── */
+.stars{position:fixed;inset:0;pointer-events:none;z-index:0;}
+.star{position:absolute;border-radius:50%;background:#fff;animation:twinkle var(--dur,3s) var(--d,0s) ease-in-out infinite alternate;}
+@keyframes twinkle{0%{opacity:.15;transform:scale(1)}100%{opacity:.9;transform:scale(1.4)}}
+
+/* ─── SHOOTING STAR ─── */
+.shooting-star{
+  position:fixed;
+  width:2px;height:2px;
+  background:#fff;
+  border-radius:50%;
+  filter:drop-shadow(0 0 6px #fff);
+  z-index:1;
+  animation:shoot var(--sdur,4s) var(--sdel,0s) linear infinite;
+  opacity:0;
+}
+.shooting-star::before{
+  content:'';
+  position:absolute;
+  top:50%;left:100%;
+  width:90px;height:1px;
+  background:linear-gradient(to left,rgba(255,255,255,.9),transparent);
+  transform:translateY(-50%);
+}
+@keyframes shoot{
+  0%{opacity:0;transform:translate(0,0)}
+  2%{opacity:1}
+  18%{opacity:1;transform:translate(-38vw,32vh)}
+  22%{opacity:0;transform:translate(-42vw,36vh)}
+  100%{opacity:0}
+}
+
+/* ─── VIGNETTE ─── */
+.vignette{
+  position:fixed;inset:0;
+  pointer-events:none;
+  z-index:250;
+  background:radial-gradient(ellipse at center,transparent 40%,rgba(5,0,10,.55) 100%);
+}
+
+/* ─── MIST ─── */
+.mist{
+  position:fixed;
+  bottom:-4vh;left:-10vw;
+  width:120vw;height:22vh;
+  z-index:6;
+  pointer-events:none;
+  background:linear-gradient(to top,rgba(160,60,120,.16),transparent);
+  filter:blur(6px);
+}
+.mist-band{
+  position:absolute;
+  bottom:0;
+  width:60vw;height:100%;
+  border-radius:50%;
+  background:radial-gradient(ellipse at center,rgba(220,150,200,.12),transparent 70%);
+  animation:mistDrift var(--mdur,22s) linear infinite;
+}
+.mist-band--1{left:-20vw;animation-delay:0s}
+.mist-band--2{left:10vw;--mdur:28s;animation-delay:-9s}
+.mist-band--3{left:40vw;--mdur:25s;animation-delay:-4s}
+@keyframes mistDrift{
+  0%{transform:translateX(-8vw)}
+  50%{transform:translateX(8vw)}
+  100%{transform:translateX(-8vw)}
+}
+
+/* ─── FIREFLIES ─── */
+.fireflies{position:fixed;inset:0;pointer-events:none;z-index:11;}
+.firefly{
+  position:absolute;
+  width:4px;height:4px;
+  border-radius:50%;
+  background:#fff2c4;
+  box-shadow:0 0 6px 2px rgba(255,230,150,.9),0 0 14px 6px rgba(255,180,220,.4);
+  animation:fireflyFloat var(--fdur,9s) var(--fdel,0s) ease-in-out infinite;
+  opacity:0;
+}
+@keyframes fireflyFloat{
+  0%{opacity:0;transform:translate(0,0) scale(.6)}
+  10%{opacity:1}
+  50%{transform:translate(var(--fx,15px),-70px) scale(1)}
+  90%{opacity:.9}
+  100%{opacity:0;transform:translate(var(--fx2,-10px),-140px) scale(.5)}
+}
+
+/* ─── MOON ─── */
+.moon{
+  position:fixed;top:6vh;right:10vw;width:70px;height:70px;border-radius:50%;
+  background:radial-gradient(circle at 35% 35%,#fff9e0,#ffd97a 60%,#c8941e);
+  box-shadow:
+    0 0 30px 10px rgba(255,220,100,.35),
+    0 0 80px 30px rgba(255,200,50,.15),
+    0 0 140px 60px rgba(255,190,90,.08);
+  animation:moonFloat 8s ease-in-out infinite;
+  z-index:1;
+}
+.moon::before{
+  content:'';
+  position:absolute;
+  inset:-18px;
+  border-radius:50%;
+  border:1px solid rgba(255,230,170,.12);
+  animation:haloSpin 30s linear infinite;
+}
+@keyframes haloSpin{0%{transform:rotate(0)}100%{transform:rotate(360deg)}}
+.moon::after{
+  content:'';position:absolute;top:12px;right:12px;width:15px;height:15px;border-radius:50%;
+  background:rgba(180,130,0,.25);
+  box-shadow:0 22px 0 10px rgba(160,110,0,.18),18px 30px 0 5px rgba(160,110,0,.12);
+}
+@keyframes moonFloat{0%,100%{transform:translateY(0) rotate(-3deg)}50%{transform:translateY(-12px) rotate(3deg)}}
+
+/* ─── FALLING PETALS ─── */
+.petal-fall{
+  position:fixed;top:-40px;width:12px;height:16px;border-radius:50% 0 50% 0;opacity:.7;
+  animation:petalDrop var(--pt,8s) var(--pd,0s) linear infinite;
+  z-index:200;pointer-events:none;
+}
+@keyframes petalDrop{
+  0%{transform:translateY(-40px) rotate(0deg) translateX(0);opacity:.8}
+  25%{transform:translateY(25vh) rotate(90deg) translateX(30px);opacity:.6}
+  50%{transform:translateY(50vh) rotate(180deg) translateX(-20px);opacity:.5}
+  75%{transform:translateY(75vh) rotate(270deg) translateX(20px);opacity:.3}
+  100%{transform:translateY(110vh) rotate(360deg) translateX(-10px);opacity:0}
+}
+
+/* ─── MESSAGE ─── */
+.message-wrap{position:fixed;top:0;left:0;right:0;display:flex;flex-direction:column;align-items:center;padding-top:5vh;z-index:150;pointer-events:none;}
+.message-line{
+  font-family:'Great Vibes',cursive;color:#fff;letter-spacing:.08em;line-height:1.15;text-align:center;
+  animation:msgReveal 3s 1.5s both;
+}
+.message-line:nth-child(1){
+  font-size:clamp(3.5rem,8vw,7rem);
+  text-shadow:0 0 30px rgba(255,105,180,.9),0 0 60px rgba(255,105,180,.6),0 0 120px rgba(255,50,130,.4),0 2px 8px rgba(0,0,0,.5);
+  animation:msgReveal 3s 1.5s both,shimmer 5s 4.5s ease-in-out infinite;
+}
+@keyframes shimmer{
+  0%,100%{text-shadow:0 0 30px rgba(255,105,180,.9),0 0 60px rgba(255,105,180,.6),0 0 120px rgba(255,50,130,.4),0 2px 8px rgba(0,0,0,.5)}
+  50%{text-shadow:0 0 40px rgba(255,150,200,1),0 0 80px rgba(255,120,180,.75),0 0 150px rgba(255,80,150,.5),0 2px 8px rgba(0,0,0,.5)}
+}
+.message-sub{
+  font-family:'Cormorant Garamond',serif;font-size:clamp(.9rem,2vw,1.25rem);font-style:italic;font-weight:300;
+  color:rgba(255,200,220,.85);letter-spacing:.35em;margin-top:.5rem;text-shadow:0 0 20px rgba(255,100,180,.5);
+  animation:msgReveal 3s 2.4s both;
+}
+.message-ornament{margin-top:.6rem;display:flex;align-items:center;gap:1rem;animation:msgReveal 3s 3s both;}
+.message-ornament span{width:60px;height:1px;background:linear-gradient(to right,transparent,rgba(255,180,210,.6));}
+.message-ornament span:last-child{background:linear-gradient(to left,transparent,rgba(255,180,210,.6));}
+.message-ornament .heart{font-size:1rem;color:#ff69b4;filter:drop-shadow(0 0 6px rgba(255,105,180,.9));animation:heartbeat 1.2s ease-in-out infinite;}
+@keyframes heartbeat{0%,100%{transform:scale(1)}30%{transform:scale(1.25)}60%{transform:scale(1.05)}}
+@keyframes msgReveal{0%{opacity:0;transform:translateY(20px)}100%{opacity:1;transform:translateY(0)}}
+
+/* ─── NIGHT BG ─── */
+.night{
+  position:fixed;left:50%;top:0;transform:translateX(-50%);width:100%;height:100%;filter:blur(.1vmin);
+  background-image:
+    radial-gradient(ellipse at top,transparent 0%,var(--dark-color)),
+    radial-gradient(ellipse at bottom,var(--dark-color),rgba(120,0,60,.25)),
+    repeating-linear-gradient(220deg,rgb(0,0,0) 0px,rgb(0,0,0) 19px,transparent 19px,transparent 22px),
+    repeating-linear-gradient(189deg,rgb(0,0,0) 0px,rgb(0,0,0) 19px,transparent 19px,transparent 22px),
+    repeating-linear-gradient(148deg,rgb(0,0,0) 0px,rgb(0,0,0) 19px,transparent 19px,transparent 22px),
+    linear-gradient(90deg,rgb(140,0,100),rgb(60,0,40));
+  z-index:0;
+}
+
+/* ─── GROUND GLOW ─── */
+.ground-glow{
+  position:absolute;bottom:-5vmin;left:50%;transform:translateX(-50%);
+  width:80vmin;height:15vmin;
+  background:radial-gradient(ellipse at center,rgba(200,20,90,.25) 0%,transparent 70%);
+  z-index:5;animation:groundPulse 3s ease-in-out infinite;
+}
+@keyframes groundPulse{0%,100%{opacity:.7;transform:translateX(-50%) scaleX(1)}50%{opacity:1;transform:translateX(-50%) scaleX(1.1)}}
+
+/* ─── FLOWER GARDEN ─── */
+.garden{
+  position:relative;
+  z-index:10;
+  display:flex;
+  align-items:flex-end;
+  gap:3vmin;
+  opacity:0;
+  animation:gardenIn 1.6s .4s ease-out forwards;
+}
+@keyframes gardenIn{to{opacity:1}}
+
+.bloom{
+  position:relative;
+  width:38vmin;
+  max-width:340px;
+  transform-origin:bottom center;
+  animation:sway 6s ease-in-out infinite;
+}
+.bloom--lily{animation-delay:.3s}
+.bloom--rose{animation-delay:0s;transform:scaleX(-1);}
+@keyframes sway{0%,100%{transform:rotate(-2deg)}50%{transform:rotate(2deg)}}
+.bloom--rose{animation-name:swayRose}
+@keyframes swayRose{0%,100%{transform:scaleX(-1) rotate(-2deg)}50%{transform:scaleX(-1) rotate(2deg)}}
+
+.bloom svg{
+  width:100%;height:auto;display:block;
+  overflow:visible;
+}
+
+.bloom-head{
+  transform-origin:170px 190px;
+  animation:headBloom 2.2s .9s cubic-bezier(.34,1.4,.64,1) both;
+}
+.bloom--lily .bloom-head{animation-delay:1.1s}
+.bloom--rose .bloom-head{animation-delay:.7s}
+@keyframes headBloom{
+  0%{transform:scale(0) rotate(-25deg);opacity:0}
+  100%{transform:scale(1) rotate(0);opacity:1}
+}
+
+.bloom-stem{
+  stroke-dasharray:520;
+  stroke-dashoffset:520;
+  animation:stemGrow 1.6s .1s ease-out forwards;
+}
+.bloom--rose .bloom-stem{animation-delay:0s}
+
+@keyframes stemGrow{to{stroke-dashoffset:0}}
+
+.bloom-leaf{
+  transform-origin:var(--lx,0) var(--ly,0);
+  animation:leafGrow 1s var(--ld,.6s) ease-out both;
+}
+@keyframes leafGrow{0%{transform:scale(0)}100%{transform:scale(1)}}
+
+.glow-dot{
+  animation:sparkle var(--gd,3s) var(--gdel,0s) ease-in-out infinite;
+}
+@keyframes sparkle{
+  0%,100%{opacity:.2;r:1.4}
+  50%{opacity:1;r:2.4}
+}
+
+.not-loaded *{animation-play-state:paused!important}
+</style>
+</head>
+<body class="not-loaded">
+
+<div class="night"></div>
+<div class="stars" id="stars"></div>
+<div class="shooting-star" style="top:12%;left:70%;--sdur:6s;--sdel:1.5s"></div>
+<div class="shooting-star" style="top:22%;left:85%;--sdur:8.5s;--sdel:4.8s"></div>
+<div class="moon"></div>
+<div class="mist">
+  <div class="mist-band mist-band--1"></div>
+  <div class="mist-band mist-band--2"></div>
+  <div class="mist-band mist-band--3"></div>
+</div>
+<div class="fireflies" id="fireflies"></div>
+<audio id="bgm" src="assets/song.mp3" loop preload="auto"></audio>
+
+<div class="message-wrap">
+  <div class="message-line">My One And Only Hasti</div>
+  <div class="message-sub">Ghorbonet Baram</div>
+  <div class="message-ornament">
+    <span></span>
+    <span class="heart">♥</span>
+    <span></span>
+  </div>
+</div>
+
+<div id="petals"></div>
+<div class="ground-glow"></div>
+
+<div class="garden">
+
+  <!-- BLUE LILY -->
+  <div class="bloom bloom--lily">
+    <svg viewBox="0 0 340 520" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="lilyPetal" x1="0%" y1="100%" x2="0%" y2="0%">
+          <stop offset="0%" stop-color="#0d2a6b"/>
+          <stop offset="45%" stop-color="#1f5fd6"/>
+          <stop offset="100%" stop-color="#9fd0ff"/>
+        </linearGradient>
+        <radialGradient id="lilyThroat" cx="50%" cy="70%" r="60%">
+          <stop offset="0%" stop-color="#eaf6ff"/>
+          <stop offset="60%" stop-color="#7fb8ff"/>
+          <stop offset="100%" stop-color="#1f5fd6"/>
+        </radialGradient>
+        <linearGradient id="stemGradL" x1="0" y1="1" x2="0" y2="0">
+          <stop offset="0%" stop-color="#123a1f"/>
+          <stop offset="100%" stop-color="#2f7a45"/>
+        </linearGradient>
+        <linearGradient id="leafGradL" x1="0" y1="1" x2="1" y2="0">
+          <stop offset="0%" stop-color="#123a1f"/>
+          <stop offset="100%" stop-color="#3f9a5a"/>
+        </linearGradient>
+        <filter id="softGlowL" x="-60%" y="-60%" width="220%" height="220%">
+          <feGaussianBlur stdDeviation="6" result="b"/>
+          <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+      </defs>
+
+      <!-- stem -->
+      <path class="bloom-stem" d="M170 510 C168 400 172 300 170 195" fill="none" stroke="url(#stemGradL)" stroke-width="5" stroke-linecap="round"/>
+
+      <!-- leaves -->
+      <path class="bloom-leaf" style="--lx:168px;--ly:330px;--ld:.9s" d="M168 330 C120 320 80 350 55 400 C110 400 150 375 168 330 Z" fill="url(#leafGradL)"/>
+      <path class="bloom-leaf" style="--lx:172px;--ly:400px;--ld:1.05s" d="M172 400 C225 392 265 420 290 465 C235 465 195 442 172 400 Z" fill="url(#leafGradL)"/>
+
+      <!-- flower head -->
+      <g class="bloom-head" filter="url(#softGlowL)">
+        <!-- back petals -->
+        <path d="M170 195 C120 150 95 70 118 15 C150 55 168 130 170 195 Z" fill="url(#lilyPetal)" opacity=".95"/>
+        <path d="M170 195 C220 150 245 70 222 15 C190 55 172 130 170 195 Z" fill="url(#lilyPetal)" opacity=".95"/>
+        <path d="M170 195 C110 175 45 130 30 65 C85 75 145 120 170 195 Z" fill="url(#lilyPetal)" opacity=".92"/>
+        <path d="M170 195 C230 175 295 130 310 65 C255 75 195 120 170 195 Z" fill="url(#lilyPetal)" opacity=".92"/>
+        <!-- front petals -->
+        <path d="M170 195 C145 160 138 100 170 40 C202 100 195 160 170 195 Z" fill="url(#lilyPetal)"/>
+        <path d="M170 195 C130 185 90 155 85 105 C130 120 160 155 170 195 Z" fill="url(#lilyPetal)"/>
+        <path d="M170 195 C210 185 250 155 255 105 C210 120 180 155 170 195 Z" fill="url(#lilyPetal)"/>
+
+        <!-- vein highlights -->
+        <g stroke="#cfe8ff" stroke-width="1" opacity=".5" fill="none" stroke-linecap="round">
+          <path d="M170 190 C150 150 138 95 150 45"/>
+          <path d="M170 190 C190 150 202 95 190 45"/>
+          <path d="M170 190 C130 175 105 145 95 108"/>
+          <path d="M170 190 C210 175 235 145 245 108"/>
+        </g>
+
+        <!-- throat -->
+        <path d="M170 195 C158 165 160 130 170 100 C180 130 182 165 170 195 Z" fill="url(#lilyThroat)"/>
+
+        <!-- freckles -->
+        <g fill="#3d6fc4" opacity=".55">
+          <circle cx="163" cy="150" r="1.6"/>
+          <circle cx="176" cy="140" r="1.3"/>
+          <circle cx="168" cy="128" r="1.5"/>
+          <circle cx="178" cy="160" r="1.2"/>
+        </g>
+
+        <!-- stamens -->
+        <g stroke="#e8f2ff" stroke-width="2" stroke-linecap="round">
+          <line x1="170" y1="185" x2="150" y2="130"/>
+          <line x1="170" y1="185" x2="163" y2="115"/>
+          <line x1="170" y1="185" x2="178" y2="112"/>
+          <line x1="170" y1="185" x2="190" y2="128"/>
+          <line x1="170" y1="185" x2="170" y2="105"/>
+        </g>
+        <circle cx="150" cy="128" r="4" fill="#c9760f"/>
+        <circle cx="163" cy="113" r="4" fill="#c9760f"/>
+        <circle cx="178" cy="110" r="4" fill="#c9760f"/>
+        <circle cx="190" cy="126" r="4" fill="#c9760f"/>
+        <circle cx="170" cy="103" r="4" fill="#c9760f"/>
+
+        <!-- sparkle -->
+        <circle class="glow-dot" style="--gd:2.6s;--gdel:.2s" cx="170" cy="150" r="2" fill="#eaf6ff"/>
+        <circle class="glow-dot" style="--gd:3.4s;--gdel:1s" cx="130" cy="90" r="1.6" fill="#eaf6ff"/>
+        <circle class="glow-dot" style="--gd:3s;--gdel:.6s" cx="215" cy="95" r="1.6" fill="#eaf6ff"/>
+      </g>
+    </svg>
+  </div>
+
+  <!-- PINK ROSE -->
+  <div class="bloom bloom--rose">
+    <svg viewBox="0 0 340 520" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="roseOuter" x1="0%" y1="100%" x2="0%" y2="0%">
+          <stop offset="0%" stop-color="#8c0f45"/>
+          <stop offset="50%" stop-color="#e0407a"/>
+          <stop offset="100%" stop-color="#ffb3d9"/>
+        </linearGradient>
+        <linearGradient id="roseInner" x1="0%" y1="100%" x2="0%" y2="0%">
+          <stop offset="0%" stop-color="#a3134f"/>
+          <stop offset="60%" stop-color="#ff5c9a"/>
+          <stop offset="100%" stop-color="#ffd6e8"/>
+        </linearGradient>
+        <linearGradient id="stemGradR" x1="0" y1="1" x2="0" y2="0">
+          <stop offset="0%" stop-color="#1a3a1f"/>
+          <stop offset="100%" stop-color="#2f7a45"/>
+        </linearGradient>
+        <linearGradient id="leafGradR" x1="0" y1="1" x2="1" y2="0">
+          <stop offset="0%" stop-color="#1a3a1f"/>
+          <stop offset="100%" stop-color="#3f9a5a"/>
+        </linearGradient>
+        <filter id="softGlowR" x="-60%" y="-60%" width="220%" height="220%">
+          <feGaussianBlur stdDeviation="6" result="b"/>
+          <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+      </defs>
+
+      <!-- stem -->
+      <path class="bloom-stem" d="M170 510 C172 400 168 300 170 210" fill="none" stroke="url(#stemGradR)" stroke-width="5" stroke-linecap="round"/>
+
+      <!-- thorn -->
+      <path class="bloom-leaf" style="--lx:170px;--ly:360px;--ld:1.2s" d="M170 360 L182 352 L170 348 Z" fill="#2f7a45"/>
+
+      <!-- leaves -->
+      <path class="bloom-leaf" style="--lx:168px;--ly:340px;--ld:.9s" d="M168 340 C118 330 78 358 52 405 C108 407 150 380 168 340 Z" fill="url(#leafGradR)"/>
+      <path class="bloom-leaf" style="--lx:172px;--ly:405px;--ld:1.05s" d="M172 405 C228 397 268 425 292 470 C238 470 197 447 172 405 Z" fill="url(#leafGradR)"/>
+
+      <!-- flower head -->
+      <g class="bloom-head" filter="url(#softGlowR)">
+        <!-- outer petals -->
+        <path d="M170 205 C95 205 55 155 60 95 C120 95 165 140 170 205 Z" fill="url(#roseOuter)" opacity=".95"/>
+        <path d="M170 205 C245 205 285 155 280 95 C220 95 175 140 170 205 Z" fill="url(#roseOuter)" opacity=".95"/>
+        <path d="M170 205 C110 170 80 105 100 45 C155 65 178 135 170 205 Z" fill="url(#roseOuter)" opacity=".92"/>
+        <path d="M170 205 C230 170 260 105 240 45 C185 65 162 135 170 205 Z" fill="url(#roseOuter)" opacity=".92"/>
+        <path d="M170 205 C140 155 138 90 170 35 C202 90 200 155 170 205 Z" fill="url(#roseOuter)"/>
+
+        <!-- mid petals swirl -->
+        <path d="M170 205 C130 190 108 150 118 108 C155 118 172 160 170 205 Z" fill="url(#roseInner)" opacity=".95"/>
+        <path d="M170 205 C210 190 232 150 222 108 C185 118 168 160 170 205 Z" fill="url(#roseInner)" opacity=".95"/>
+        <path d="M170 205 C150 178 145 140 170 100 C195 140 190 178 170 205 Z" fill="url(#roseInner)"/>
+
+        <!-- inner curl / center -->
+        <path d="M170 205 C155 190 152 165 170 145 C188 165 185 190 170 205 Z" fill="#7a0d3d"/>
+        <path d="M170 195 C162 186 161 172 170 160 C179 172 178 186 170 195 Z" fill="#5c0930"/>
+
+        <!-- petal edge highlights -->
+        <g stroke="#ffd9ea" stroke-width="1" opacity=".45" fill="none" stroke-linecap="round">
+          <path d="M120 160 C90 130 78 95 95 55"/>
+          <path d="M220 160 C250 130 262 95 245 55"/>
+          <path d="M150 175 C130 150 128 118 145 90"/>
+        </g>
+
+        <!-- sparkle -->
+        <circle class="glow-dot" style="--gd:2.8s;--gdel:.3s" cx="150" cy="120" r="2" fill="#ffe3ef"/>
+        <circle class="glow-dot" style="--gd:3.2s;--gdel:1.1s" cx="200" cy="115" r="1.6" fill="#ffe3ef"/>
+        <circle class="glow-dot" style="--gd:2.4s;--gdel:.7s" cx="170" cy="70" r="1.6" fill="#ffe3ef"/>
+      </g>
+    </svg>
+  </div>
+
+</div><!-- /.garden -->
+
+<div class="vignette"></div>
+
+<script>
+onload = () => {
+  setTimeout(() => document.body.classList.remove("not-loaded"), 1000);
+};
+
+const bgm = document.getElementById('bgm');
+const tryPlay = () => {
+  bgm.play().catch(() => {
+    // Autoplay blocked — start on first user interaction instead
+    const resume = () => {
+      bgm.play();
+      document.removeEventListener('click', resume);
+      document.removeEventListener('keydown', resume);
+      document.removeEventListener('touchstart', resume);
+    };
+    document.addEventListener('click', resume);
+    document.addEventListener('keydown', resume);
+    document.addEventListener('touchstart', resume);
+  });
+};
+tryPlay();
+
+const starsEl = document.getElementById('stars');
+const starTints=['#ffffff','#ffffff','#ffffff','#ffe9c4','#dbe9ff','#ffd6ec'];
+for(let i=0;i<150;i++){
+  const s = document.createElement('div');
+  s.className='star';
+  const sz = Math.random()*2.5+.5;
+  const tint = starTints[Math.floor(Math.random()*starTints.length)];
+  s.style.cssText=`width:${sz}px;height:${sz}px;top:${Math.random()*85}%;left:${Math.random()*100}%;background:${tint};box-shadow:0 0 ${sz*2}px ${tint};--dur:${(Math.random()*3+2).toFixed(1)}s;--d:${(Math.random()*4).toFixed(1)}s;`;
+  starsEl.appendChild(s);
+}
+
+const firefliesEl = document.getElementById('fireflies');
+for(let i=0;i<22;i++){
+  const f = document.createElement('div');
+  f.className='firefly';
+  f.style.cssText=`
+    left:${30+Math.random()*40}%;
+    bottom:${2+Math.random()*30}vh;
+    --fdur:${(Math.random()*6+7).toFixed(1)}s;
+    --fdel:${(Math.random()*8).toFixed(1)}s;
+    --fx:${(Math.random()*60-30).toFixed(0)}px;
+    --fx2:${(Math.random()*60-30).toFixed(0)}px;
+  `;
+  firefliesEl.appendChild(f);
+}
+
+const petalsEl = document.getElementById('petals');
+const petalColors=['#7fb8ff','#1f5fd6','#ff69b4','#ff4499','#ffb3d9','#e0407a'];
+for(let i=0;i<18;i++){
+  const p = document.createElement('div');
+  p.className='petal-fall';
+  const c = petalColors[Math.floor(Math.random()*petalColors.length)];
+  p.style.cssText=`left:${Math.random()*100}vw;background:${c};width:${Math.random()*8+7}px;height:${Math.random()*10+10}px;--pt:${(Math.random()*6+6).toFixed(1)}s;--pd:${(Math.random()*8).toFixed(1)}s;border-radius:${Math.random()>.5?'50% 0 50% 0':'0 50% 0 50%'};opacity:${(.4+Math.random()*.5).toFixed(2)};box-shadow:0 0 4px ${c}88;`;
+  petalsEl.appendChild(p);
+}
+</script>
+</body>
+</html>
