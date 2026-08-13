@@ -266,6 +266,7 @@ body{
 </style>
 </head>
 <body class="not-loaded">
+<div id="tapCatcher" style="position:fixed;inset:0;z-index:9999;background:transparent;"></div>
 
 <div class="night"></div>
 <div class="stars" id="stars"></div>
@@ -464,21 +465,15 @@ onload = () => {
 };
 
 const bgm = document.getElementById('bgm');
-const tryPlay = () => {
-  bgm.play().catch(() => {
-    // Autoplay blocked — start on first user interaction instead
-    const resume = () => {
-      bgm.play();
-      document.removeEventListener('click', resume);
-      document.removeEventListener('keydown', resume);
-      document.removeEventListener('touchstart', resume);
-    };
-    document.addEventListener('click', resume);
-    document.addEventListener('keydown', resume);
-    document.addEventListener('touchstart', resume);
-  });
+const tapCatcher = document.getElementById('tapCatcher');
+
+const startExperience = () => {
+  bgm.play().catch(() => {});
+  tapCatcher.remove();
 };
-tryPlay();
+
+tapCatcher.addEventListener('touchstart', startExperience, { once: true });
+tapCatcher.addEventListener('click', startExperience, { once: true });
 
 const starsEl = document.getElementById('stars');
 const starTints=['#ffffff','#ffffff','#ffffff','#ffe9c4','#dbe9ff','#ffd6ec'];
